@@ -21,11 +21,16 @@
 .glass {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.1),
     rgba(255, 255, 255, 0.05)
   );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  transition: background 0.3s ease-in-out;
+}
+
+.glassHovered:hover {
+  background: rgba(0, 0, 0, 0.2); /* Ganti jadi warna solid saat hover */
 }
 
 @theme inline {

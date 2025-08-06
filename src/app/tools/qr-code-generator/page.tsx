@@ -1,8 +1,7 @@
-import QRCodePageClient from "./QRCodePageClient";
+import QRCodePageClient from "../../../components/QRCodePageClient";
 
 export const metadata = {
   title: "QR GENERATOR",
-  description: "ini deskipsi",
   icons: {
     icon: "/file.svg",
   },
