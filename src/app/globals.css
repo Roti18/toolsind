@@ -1,8 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;
+  --foreground: #fafafa;
+  --accent: #rgba(255, 255, 255, 0.2);
+  --gradientCard: linear-gradient(
+    to right,
+    #000000,
+    #1a1a1a,
+    #2b2b2b,
+    #444444,
+    #5c5c5c,
+    #777777,
+    #999999,
+    #cccccc,
+    #ffffff
+  );
+}
+
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 @theme inline {
