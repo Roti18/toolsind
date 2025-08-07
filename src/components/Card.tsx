@@ -15,7 +15,7 @@ export default function Card({
   icon: Icon,
 }: CardProps) {
   return (
-    <Link href={href} target="_blank" rel="noopener noreferrer">
+    <Link href={href} rel="noopener noreferrer">
       <div className="w-70 h-[260px] p-6 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900/60 to-zinc-800/80 backdrop-blur-xl overflow-hidden shadow-lg group hover:shadow-red-500/40 transition-all duration-500 hover:scale-[1.03] hover:border-red-500 flex flex-col justify-between cursor-pointer">
         {/* Background glow */}
         <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out">

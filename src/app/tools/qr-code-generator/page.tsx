@@ -1,10 +1,10 @@
 import QRCodePageClient from "../../../components/QRCodePageClient";
+import toolsCard from "../../../../data/toolsCard";
+
+const tool = toolsCard.find((tool) => tool.href === "/tools/convert");
 
 export const metadata = {
-  title: "QR GENERATOR",
-  icons: {
-    icon: "/file.svg",
-  },
+  title: tool?.title,
 };
 
 export default function Page() {

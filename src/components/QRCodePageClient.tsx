@@ -72,15 +72,14 @@ export default function QRCodePage() {
         </div>
       )}
 
-      <div className="min-h-screen bg-zinc-950 text-white px-6 py-12">
+      <div className="min-h-screen bg-zinc-950 text-white px-6 py-12 mt-30">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-12 text-center text-red-500">
-            QR Code Generator & Scanner
-          </h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid  grid-cols-1 md:grid-cols-2 gap-10">
             {/* Generate QR */}
-            <div className="rounded-2xl p-6 border border-zinc-800 bg-zinc-900/60 backdrop-blur-md shadow-lg glass">
+            <div className="relative overflow-hidden group rounded-2xl p-6 border border-zinc-800 bg-zinc-900/60 backdrop-blur-md shadow-lg">
+              <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out">
+                <div className="absolute -inset-20 bg-gradient-to-tr from-red-500 via-white to-black opacity-10 blur-2xl animate-pulse" />
+              </div>
               <h2 className="text-xl font-semibold mb-4 text-white">
                 Generate QR Code
               </h2>
@@ -95,7 +94,7 @@ export default function QRCodePage() {
 
               <button
                 onClick={generateQR}
-                className="w-full py-3 rounded-lg cursor-pointer  bg-red-600 hover:bg-red-700 text-white font-medium transition duration-200"
+                className="w-full py-3 rounded-lg cursor-pointer bg-red-600 hover:bg-red-700 text-white font-medium transition duration-200"
               >
                 Buat QR Code
               </button>
@@ -115,7 +114,11 @@ export default function QRCodePage() {
             </div>
 
             {/* Scan QR */}
-            <div className="rounded-2xl p-6 border border-zinc-800 bg-zinc-900/60 backdrop-blur-md shadow-lg glass">
+            <div className="relative overflow-hidden group rounded-2xl p-6 border border-zinc-800 bg-zinc-900/60 backdrop-blur-md shadow-lg">
+              <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out">
+                <div className="absolute -inset-20 bg-gradient-to-tr from-red-500 via-white to-black opacity-10 blur-2xl animate-pulse" />
+              </div>
+
               <h2 className="text-xl font-semibold mb-4 text-white">
                 Scan QR dari Gambar
               </h2>

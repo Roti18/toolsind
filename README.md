@@ -7,3 +7,5 @@ claude
 chatgpt
 granite
 herouichat (components)
+
+env: convertapi-secretkey
