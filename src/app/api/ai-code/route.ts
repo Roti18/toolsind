@@ -1,7 +1,3 @@
-// /app/api/ai-code/route.ts
-
-import { NextResponse } from "next/server";
-
 export async function POST(req: Request) {
   const { prompt } = await req.json();
 
@@ -18,15 +14,20 @@ export async function POST(req: Request) {
   );
 
   const encoder = new TextEncoder();
+
   const stream = new ReadableStream({
     async start(controller) {
       try {
         for await (const chunk of replicateStream) {
-          controller.enqueue(encoder.encode(chunk));
+          if (chunk?.data) {
+            controller.enqueue(encoder.encode(chunk.data));
+          }
         }
-        controller.close();
+
+        if (controller.desiredSize !== null) {
+          controller.close();
+        }
       } catch (err) {
-        console.error("Stream error:", err);
         controller.error(err);
       }
     },

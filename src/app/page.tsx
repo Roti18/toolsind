@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <div>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <main className="flex min-h-screen flex-col items-center p-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
+      <main className="flex min-h-screen flex-col items-center px-4 sm:px-8 md:px-16 lg:px-24 py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-20 w-full max-w-7xl">
           {filteredTools.map((tool, index) => (
             <Card
               key={index}

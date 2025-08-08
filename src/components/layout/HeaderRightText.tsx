@@ -4,14 +4,12 @@ import toolsCard from "../../../data/toolsCard";
 
 const HeaderRightText = () => {
   const pathname = usePathname();
-
   if (pathname === "/") return null;
-
   const matchedTool = toolsCard.find((tool) => pathname.includes(tool.href));
   if (!matchedTool) return null;
 
   return (
-    <div className="text-right">
+    <div className="text-center sm:text-right">
       <span className="font-bold text-2xl text-red-500 group-hover:text-white transition-colors duration-300">
         {matchedTool.title}
       </span>

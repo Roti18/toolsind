@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    screens: {
+      "mid-screen": { min: "1080px", max: "1460px" },
+    },
   },
   plugins: [],
 };

@@ -13,11 +13,6 @@ export default function LayoutWrapper({
   const [searchQuery, setSearchQuery] = useState("");
 
   const isHome = pathname === "/";
-  const is404Page = pathname === "/404"; // Tambahkan ini
-
-  if (is404Page) {
-    return <>{children}</>; // Hilangkan header jika 404
-  }
 
   return (
     <>
