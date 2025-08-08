@@ -1,8 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import Header from "./Header";
+import Footer from "./Footer";
+import toolsCard from "../../../data/toolsCard";
 
 export default function LayoutWrapper({
   children,
@@ -10,14 +11,16 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const isHome = pathname === "/";
+  // ambil semua href dari toolsCard
+  const validPaths = toolsCard.map((tool) => tool.href);
+  const isValidPath = pathname === "/" || validPaths.includes(pathname);
 
   return (
     <>
-      <Header {...(isHome ? { searchQuery, setSearchQuery } : {})} />
+      {isValidPath && <Header />}
       <div>{children}</div>
+      {isValidPath && <Footer />}
     </>
   );
 }

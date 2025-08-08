@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface HeaderProps {
-  searchQuery: string;
-  setSearchQuery: (value: string) => void;
+  searchQuery?: string;
+  setSearchQuery?: (value: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ searchQuery, setSearchQuery }) => {
@@ -111,12 +111,12 @@ const Header: React.FC<HeaderProps> = ({ searchQuery, setSearchQuery }) => {
                     type="text"
                     placeholder="Search apps..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => setSearchQuery?.(e.target.value)}
                     className="w-80 pl-10 pr-4 py-2.5 cursor-pointer rounded-xl bg-zinc-900 text-white placeholder-zinc-500 border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:bg-zinc-800 focus:shadow-red-500/10 focus:shadow-lg transition-all duration-300"
                   />
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery("")}
+                      onClick={() => setSearchQuery?.("")}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-400 transition-colors duration-300"
                     >
                       <svg

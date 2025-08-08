@@ -96,6 +96,7 @@ export default function FileUpload() {
       }
     } catch (err) {
       setError("Something went wrong during conversion.");
+      console.error(err);
     }
 
     setLoading(false);
