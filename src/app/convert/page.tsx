@@ -1,10 +1,10 @@
 import FileUpload from "@/components/FileUpload";
-import toolsCard from "../../../../data/toolsCard";
+import toolsCard from "../../../data/toolsCard";
 
-const tool = toolsCard.find((tool) => tool.href === "/tools/convert");
+const tool = toolsCard.find((tool) => tool.href === "/convert");
 
 export const metadata = {
-  title: tool?.title,
+  title: `${tool?.webName} | ${tool?.title}`,
 };
 
 export default function ConverterPage() {

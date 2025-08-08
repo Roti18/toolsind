@@ -1,10 +1,10 @@
 import AiCode from "@/components/AiCode";
-import toolsCard from "../../../../data/toolsCard";
+import toolsCard from "../../../data/toolsCard";
 
-const tool = toolsCard.find((tool) => tool.href === "/tools/ai-code-generator");
+const tool = toolsCard.find((tool) => tool.href === "/ai-code-generator");
 
 export const metadata = {
-  title: tool?.title,
+  title: `${tool?.webName} | ${tool?.title}`,
 };
 
 export default function AICodePage() {
