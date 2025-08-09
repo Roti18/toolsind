@@ -47,7 +47,7 @@ Here are the steps to run this project in your local environment:
    ```
 2. Navigate to the project directory:
    ```bash
-   cd capstone-project_hacktiv8xibm
+   cd toolsind
    ```
 3. Install dependencies:
    ```bash
