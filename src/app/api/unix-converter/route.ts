@@ -14,7 +14,7 @@ function convertUnixToLocal(unix: number): string {
 
     // Mengembalikan tanggal dan waktu dalam format lokal
     return date.toLocaleString();
-  } catch (error) {
+  } catch {
     // Menangani error jika konversi gagal
     return "Invalid timestamp";
   }
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     // Mengembalikan respons sukses dengan waktu lokal
     return NextResponse.json({ localTime });
-  } catch (error) {
+  } catch {
     // Menangani error jika parsing JSON atau proses lainnya gagal
     return NextResponse.json(
       { error: "Invalid request body or conversion failed" },
