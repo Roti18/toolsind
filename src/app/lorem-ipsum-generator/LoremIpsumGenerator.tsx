@@ -62,7 +62,7 @@ export default function LoremIpsumGenerator() {
           />
           <button
             onClick={handleGenerate}
-            className="py-3 px-6 rounded-xl font-semibold text-white bg-red-500 hover:bg-black border border-zinc-700"
+            className="py-3 cursor-pointer px-6 rounded-xl font-semibold text-white bg-red-500 hover:bg-black border border-zinc-700"
           >
             Generate
           </button>

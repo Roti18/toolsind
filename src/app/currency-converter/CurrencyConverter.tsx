@@ -191,7 +191,7 @@ export default function CurrencyConverter() {
         <button
           onClick={handleConvert}
           disabled={loading || amount <= 0}
-          className="w-full py-3 rounded-xl font-semibold text-white bg-red-500 hover:bg-black disabled:bg-gray-600 transition-colors duration-300 relative overflow-hidden"
+          className="w-full cursor-pointer py-3 rounded-xl font-semibold text-white bg-red-500 hover:bg-black disabled:bg-gray-600 transition-colors duration-300 relative overflow-hidden"
         >
           <span className={loading ? "opacity-0" : "opacity-100"}>Convert</span>
           {loading && (

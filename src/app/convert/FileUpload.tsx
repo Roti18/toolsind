@@ -230,7 +230,7 @@ export default function FileUpload() {
         <button
           onClick={handleUpload}
           disabled={!selectedFile || !targetFormat || loading}
-          className="w-full mt-6 py-3 rounded-xl font-semibold text-white transition duration-300 bg-red-600 hover:bg-red-500 disabled:bg-zinc-700 disabled:cursor-not-allowed"
+          className="w-full mt-6 py-3 cursor-pointer rounded-xl font-semibold text-white transition duration-300 bg-red-600 hover:bg-red-500 disabled:bg-zinc-700 disabled:cursor-not-allowed"
         >
           {loading
             ? "Converting..."
