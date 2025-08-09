@@ -10,6 +10,7 @@
 
 ## ✨ Key Features
 
+- **AI-Powered Coding Assistance:** This project incorporates IBM Granite AI as one of the integrated tools to assist with coding tasks. The AI functionality is connected via IBM Granite's API and is designed to support and enhance the development experience within the suite of online utilities that I have personally developed.
 - **Diverse Online Utilities:** The application provides a comprehensive set of online tools, including a currency converter, fake data generator, image compressor, JSON validator, Lorem Ipsum generator, Markdown to HTML converter, password generator, QR code generator, text case converter, text comparator, text splitter, unit converter, and Unix timestamp converter. All features are designed to help users complete common tasks with ease.
 - **User-Friendly Interface:** The application's design focuses on an intuitive and easy-to-use user experience, with a clean layout and simple navigation. The UI components appear to be consistent and well-organized.
 - **Integrated Backend API:** The application has an integrated backend API that allows certain features, such as currency conversion and image processing, to function properly.
