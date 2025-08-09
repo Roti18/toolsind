@@ -8,6 +8,12 @@
 
 ---
 
+## 🎨 Fun Fact
+
+The dominant black theme of this web application reflects the current challenging situation in Indonesia, where issues like widespread corruption, insufficient development, and high unemployment cast a shadow over the nation. The red and white colors, inspired by the Indonesian flag, remain as symbols of hope and resilience, reminding us to keep striving for a better future despite the darkness.
+
+---
+
 ## ✨ Key Features
 
 - **AI-Powered Coding Assistance:** This project incorporates IBM Granite AI as one of the integrated tools to assist with coding tasks. The AI functionality is connected via IBM Granite's API and is designed to support and enhance the development experience within the suite of online utilities that I have personally developed.
