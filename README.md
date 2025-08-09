@@ -43,7 +43,7 @@ Here are the steps to run this project in your local environment:
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/Roti18/capstone-project_hacktiv8xibm.git](https://github.com/Roti18/capstone-project_hacktiv8xibm.git)
+   git clone https://github.com/Roti18/toolsind
    ```
 2. Navigate to the project directory:
    ```bash
