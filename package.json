@@ -9,22 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@heroicons/react": "^2.2.0",
     "@heroui/card": "^2.2.23",
     "@ilovepdf/ilovepdf-nodejs": "^0.3.1",
     "axios": "^1.11.0",
+    "busboy": "^1.6.0",
+    "diff": "^8.0.2",
+    "fast-xml-parser": "^5.2.5",
     "file-type": "^21.0.0",
     "form-data": "^4.0.4",
     "formdata-node": "^6.0.3",
     "formidable": "^3.5.4",
     "jsqr": "^1.4.0",
     "lucide-react": "^0.536.0",
+    "marked": "^16.1.2",
     "next": "15.4.5",
     "qrcode": "^1.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-qr-code": "^2.0.18",
     "replicate": "^1.0.1",
+    "sanitize-html": "^2.17.0",
     "sharp": "^0.34.3"
   },
   "devDependencies": {
@@ -34,6 +40,7 @@
     "@types/node": "^24.2.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.16.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
     "typescript": "^5"

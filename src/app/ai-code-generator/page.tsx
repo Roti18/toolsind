@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function AICodePage() {
   return (
-    <div className="min-h-screen bg-zinc-950 py-12 px-4 mt-20">
+    <div className="min-h-screen bg-zinc-950 py-14 px-4 mt-20">
       <AiCode />
     </div>
   );

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       .jpeg({ quality })
       .toBuffer();
 
-    return new NextResponse(compressedBuffer, {
+    return new NextResponse(compressedBuffer as BodyInit, {
       headers: {
         "Content-Type": "image/jpeg",
         "Content-Disposition": "inline; filename=compressed.jpg",

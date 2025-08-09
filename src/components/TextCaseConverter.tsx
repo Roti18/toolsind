@@ -51,7 +51,7 @@ export default function TextCaseConverter() {
       <textarea
         className="w-full p-2 border border-zinc-700 rounded-lg bg-black text-white placeholder-gray-500 focus:outline-none focus:border-red"
         rows={15}
-        placeholder="Masukkan teks di sini..."
+        placeholder="Input text in here..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -73,7 +73,7 @@ export default function TextCaseConverter() {
               setMode(value);
             }
           }}
-          className="w-full px-4 py-3 rounded-lg bg-black text-white border border-zinc-700 focus:outline-none focus:border-red-500"
+          className="cursor-pointer w-full px-4 py-3 rounded-lg bg-black text-white border border-zinc-700 focus:outline-none focus:border-red-500"
         >
           <option value="upper">UPPERCASE</option>
           <option value="lower">lowercase</option>

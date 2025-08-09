@@ -29,13 +29,13 @@ export default function ColorTools() {
 
         {/* Color Picker */}
         <label htmlFor="color" className="block mb-6">
-          <span className="block mb-2 text-white">Pilih Warna:</span>
+          <span className="block mb-2 text-white">Select Color:</span>
           <input
             type="color"
             id="color"
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            className="w-16 h-16 rounded border border-zinc-700"
+            className="w-16 h-16 rounded border border-zinc-700 cursor-pointer"
           />
         </label>
 
@@ -119,11 +119,11 @@ function rgbToHsl(r: number, g: number, b: number) {
   r /= 255;
   g /= 255;
   b /= 255;
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  let h = 0,
-    s = 0,
-    l = (max + min) / 2;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
 
   if (max !== min) {
     const d = max - min;

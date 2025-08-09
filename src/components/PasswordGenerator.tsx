@@ -49,7 +49,7 @@ export default function PasswordGenerator() {
               type="checkbox"
               checked={upper}
               onChange={(e) => setUpper(e.target.checked)}
-              className="accent-red-500"
+              className="accent-red-500 cursor-pointer"
             />
             Include Uppercase
           </label>
@@ -58,7 +58,7 @@ export default function PasswordGenerator() {
               type="checkbox"
               checked={numbers}
               onChange={(e) => setNumbers(e.target.checked)}
-              className="accent-red-500"
+              className="accent-red-500 cursor-pointer"
             />
             Include Numbers
           </label>
@@ -67,7 +67,7 @@ export default function PasswordGenerator() {
               type="checkbox"
               checked={symbols}
               onChange={(e) => setSymbols(e.target.checked)}
-              className="accent-red-500"
+              className="accent-red-500 cursor-pointer"
             />
             Include Symbols
           </label>

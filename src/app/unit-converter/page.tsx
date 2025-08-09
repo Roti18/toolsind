@@ -7,6 +7,6 @@ export const metadata = {
   title: `${tool?.webName} | ${tool?.title}`,
 };
 
-export default function Home() {
+export default function UnitConverterPage() {
   return <UnitConverter />;
 }

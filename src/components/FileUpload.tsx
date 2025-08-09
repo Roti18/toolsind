@@ -2,7 +2,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FileUpIcon } from "lucide-react";
+import { FileUpIcon, TriangleAlert } from "lucide-react";
+import Modal from "./Modal";
 
 const CONVERSION_OPTIONS: { [key: string]: string[] } = {
   pdf: ["docx", "txt", "html", "jpg", "png", "xlsx", "pptx"],
@@ -47,6 +48,7 @@ export default function FileUpload() {
   const [availableTargets, setAvailableTargets] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const [dragActive, setDragActive] = useState(false);
+  const [showWelcomeAlert, setShowWelcomeAlert] = useState(true);
 
   useEffect(() => {
     if (selectedFile) {
@@ -60,6 +62,10 @@ export default function FileUpload() {
       setError("");
     }
   }, [selectedFile, targetFormat]);
+
+  const handleCloseAlert = () => {
+    setShowWelcomeAlert(false);
+  };
 
   const handleUpload = async () => {
     if (!selectedFile || !targetFormat) return;
@@ -236,6 +242,19 @@ export default function FileUpload() {
           Powered by ConvertAPI — Free 250 conversions/month
         </div>
       </div>
+      {showWelcomeAlert && (
+        <Modal onClose={handleCloseAlert}>
+          <div className="text-center">
+            <div className="flex justify-center">
+              <TriangleAlert className="mb-4 h-16 w-16 text-red-500" />
+            </div>
+            <p className="text-white">
+              Mohon jangan menggunakan converter terlalu banyak untuk menghemat
+              token API.
+            </p>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

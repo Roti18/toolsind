@@ -88,15 +88,15 @@ export default function QRCodePage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Tulis sesuatu..."
+                placeholder="Write Something..."
                 className="w-full mb-4 px-4 py-3 rounded-lg bg-zinc-950 text-white placeholder-zinc-400 border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-red-500/50"
               />
 
               <button
                 onClick={generateQR}
-                className="w-full py-3 rounded-lg cursor-pointer bg-red-600 hover:bg-red-700 text-white font-medium transition duration-200"
+                className="w-full  py-3 rounded-lg cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold transition duration-200"
               >
-                Buat QR Code
+                Create QR Code
               </button>
 
               <div className="mt-6 h-[220px] flex justify-center items-center">
@@ -120,7 +120,7 @@ export default function QRCodePage() {
               </div>
 
               <h2 className="text-xl font-semibold mb-4 text-white">
-                Scan QR dari Gambar
+                Scan QR from Image
               </h2>
 
               <input
@@ -133,7 +133,7 @@ export default function QRCodePage() {
               <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
 
               <div className="mt-4 p-4 bg-zinc-950/60 border border-zinc-800 rounded-md">
-                <p className="text-sm text-zinc-400 mb-1">Hasil Scan:</p>
+                <p className="text-sm text-zinc-400 mb-1">Result Scanning:</p>
                 <p className="text-lg text-white break-words font-mono">
                   {scanResult || "-"}
                 </p>

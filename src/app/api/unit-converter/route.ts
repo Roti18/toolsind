@@ -35,7 +35,7 @@ const unitCategories = {
 
 function convert(value: number, from: string, to: string): number {
   const category = Object.entries(unitCategories).find(
-    ([_, units]) => units.includes(from) && units.includes(to)
+    ([, units]) => units.includes(from) && units.includes(to)
   );
 
   if (!category) throw new Error("Incompatible units");
@@ -47,7 +47,10 @@ function convert(value: number, from: string, to: string): number {
   }
 
   const factor = unitFactors[name as keyof typeof unitFactors];
-  return (value * factor[from]) / factor[to];
+  return (
+    (value * factor[from as keyof typeof factor]) /
+    factor[to as keyof typeof factor]
+  );
 }
 
 const unitFactors = {

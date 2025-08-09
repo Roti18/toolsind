@@ -1,14 +1,56 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import FormData from "form-data";
+
+// Type definitions
+interface ConvertApiFileInfo {
+  FileName: string;
+  FileSize: number;
+  FileData?: string;
+  Url?: string;
+}
+
+interface ConvertApiResponse {
+  Files?: ConvertApiFileInfo[];
+  ConversionTime?: string;
+  [key: string]: unknown;
+}
+
+interface ConversionError extends Error {
+  response?: {
+    status: number;
+    statusText: string;
+    data: unknown;
+  };
+  code?: string;
+}
+
+interface ErrorResponse {
+  error: string;
+  timestamp?: string;
+  helpUrl?: string;
+  setup?: {
+    step1: string;
+    step2: string;
+    step3: string;
+    step4: string;
+    freeQuota: string;
+  };
+  supportedFormats?: string;
+  sourceFormat?: string;
+  targetFormat?: string;
+  supportedTargetFormats?: string[];
+  fileSize?: string;
+  details?: unknown;
+}
 
 // File size limit (20MB for most formats)
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
 // Supported conversions mapping
-const SUPPORTED_CONVERSIONS: { [key: string]: string[] } = {
+const SUPPORTED_CONVERSIONS: Record<string, string[]> = {
   // PDF conversions
   "application/pdf": ["docx", "txt", "html", "jpg", "png", "xlsx", "pptx"],
   pdf: ["docx", "txt", "html", "jpg", "png", "xlsx", "pptx"],
@@ -68,7 +110,7 @@ const SUPPORTED_CONVERSIONS: { [key: string]: string[] } = {
 };
 
 // MIME type mapping
-const MIME_TYPES: { [key: string]: string } = {
+const MIME_TYPES: Record<string, string> = {
   pdf: "application/pdf",
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   doc: "application/msword",
@@ -94,7 +136,7 @@ function getFileExtension(file: File): string {
   }
 
   // Fallback to MIME type mapping
-  const mimeToExt: { [key: string]: string } = {
+  const mimeToExt: Record<string, string> = {
     "application/pdf": "pdf",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       "docx",
@@ -120,26 +162,34 @@ function isConversionSupported(fromFormat: string, toFormat: string): boolean {
     : false;
 }
 
-export async function POST(req: Request) {
+// Type guard for AxiosError
+function isAxiosError(error: unknown): error is AxiosError {
+  return (error as AxiosError).isAxiosError === true;
+}
+
+// Type guard for ConversionError
+function isConversionError(error: unknown): error is ConversionError {
+  return error instanceof Error && ("response" in error || "code" in error);
+}
+
+export async function POST(req: Request): Promise<Response> {
   let filePath: string | null = null;
 
   try {
     // Check ConvertAPI key
     const apiKey = process.env.CONVERTAPI_SECRET;
     if (!apiKey) {
-      return NextResponse.json(
-        {
-          error: "ConvertAPI key diperlukan",
-          setup: {
-            step1: "Daftar gratis di https://www.convertapi.com/",
-            step2: "Dapatkan Secret Key dari dashboard",
-            step3: "Tambahkan ke .env.local: CONVERTAPI_SECRET=your_secret_key",
-            step4: "Restart development server",
-            freeQuota: "250 conversions per month",
-          },
+      const errorResponse: ErrorResponse = {
+        error: "ConvertAPI key diperlukan",
+        setup: {
+          step1: "Daftar gratis di https://www.convertapi.com/",
+          step2: "Dapatkan Secret Key dari dashboard",
+          step3: "Tambahkan ke .env.local: CONVERTAPI_SECRET=your_secret_key",
+          step4: "Restart development server",
+          freeQuota: "250 conversions per month",
         },
-        { status: 400 }
-      );
+      };
+      return NextResponse.json(errorResponse, { status: 400 });
     }
 
     console.log("🔑 ConvertAPI key found");
@@ -151,14 +201,16 @@ export async function POST(req: Request) {
 
     if (!file) {
       return NextResponse.json(
-        { error: "File tidak ditemukan dalam form data" },
+        { error: "File tidak ditemukan dalam form data" } as ErrorResponse,
         { status: 400 }
       );
     }
 
     if (!targetFormat) {
       return NextResponse.json(
-        { error: "Target format tidak ditentukan. Gunakan parameter 'format'" },
+        {
+          error: "Target format tidak ditentukan. Gunakan parameter 'format'",
+        } as ErrorResponse,
         { status: 400 }
       );
     }
@@ -176,15 +228,13 @@ export async function POST(req: Request) {
 
     // Validate source format
     if (!sourceFormat) {
-      return NextResponse.json(
-        {
-          error: "Format file tidak dapat dideteksi",
-          supportedFormats: Object.keys(SUPPORTED_CONVERSIONS)
-            .filter((k) => !k.includes("/"))
-            .join(", "),
-        },
-        { status: 400 }
-      );
+      const errorResponse: ErrorResponse = {
+        error: "Format file tidak dapat dideteksi",
+        supportedFormats: Object.keys(SUPPORTED_CONVERSIONS)
+          .filter((k) => !k.includes("/"))
+          .join(", "),
+      };
+      return NextResponse.json(errorResponse, { status: 400 });
     }
 
     // Check if conversion is supported
@@ -197,33 +247,27 @@ export async function POST(req: Request) {
         SUPPORTED_CONVERSIONS[file.type] ||
         [];
 
-      return NextResponse.json(
-        {
-          error: `Konversi dari ${sourceFormat.toUpperCase()} ke ${targetFormatLower.toUpperCase()} tidak didukung`,
-          sourceFormat: sourceFormat.toUpperCase(),
-          targetFormat: targetFormatLower.toUpperCase(),
-          supportedTargetFormats: supportedTargets,
-        },
-        { status: 400 }
-      );
+      const errorResponse: ErrorResponse = {
+        error: `Konversi dari ${sourceFormat.toUpperCase()} ke ${targetFormatLower.toUpperCase()} tidak didukung`,
+        sourceFormat: sourceFormat.toUpperCase(),
+        targetFormat: targetFormatLower.toUpperCase(),
+        supportedTargetFormats: supportedTargets,
+      };
+      return NextResponse.json(errorResponse, { status: 400 });
     }
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      return NextResponse.json(
-        {
-          error: `File terlalu besar. Maksimal ${
-            MAX_FILE_SIZE / 1024 / 1024
-          }MB`,
-          fileSize: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
-        },
-        { status: 400 }
-      );
+      const errorResponse: ErrorResponse = {
+        error: `File terlalu besar. Maksimal ${MAX_FILE_SIZE / 1024 / 1024}MB`,
+        fileSize: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+      };
+      return NextResponse.json(errorResponse, { status: 400 });
     }
 
     if (file.size === 0) {
       return NextResponse.json(
-        { error: "File kosong atau corrupt" },
+        { error: "File kosong atau corrupt" } as ErrorResponse,
         { status: 400 }
       );
     }
@@ -255,7 +299,7 @@ export async function POST(req: Request) {
     } catch (fileError) {
       console.error("❌ Failed to save file:", fileError);
       return NextResponse.json(
-        { error: "Gagal menyimpan file sementara" },
+        { error: "Gagal menyimpan file sementara" } as ErrorResponse,
         { status: 500 }
       );
     }
@@ -271,56 +315,60 @@ export async function POST(req: Request) {
     // Build ConvertAPI URL
     const apiUrl = `https://v2.convertapi.com/convert/${sourceFormat}/to/${targetFormatLower}?Secret=${apiKey}`;
 
-    let convertResponse;
+    let convertResponse: AxiosResponse<ConvertApiResponse>;
     try {
-      convertResponse = await axios.post(apiUrl, convertForm, {
-        headers: {
-          ...convertForm.getHeaders(),
-          "User-Agent": "Universal File Converter",
-        },
-        timeout: 180000, // 3 minutes timeout for complex conversions
-        maxRedirects: 5,
-      });
-    } catch (axiosError: any) {
-      console.error("❌ ConvertAPI request failed:", {
-        status: axiosError.response?.status,
-        statusText: axiosError.response?.statusText,
-        data: axiosError.response?.data,
-        url: apiUrl,
-      });
+      convertResponse = await axios.post<ConvertApiResponse>(
+        apiUrl,
+        convertForm,
+        {
+          headers: {
+            ...convertForm.getHeaders(),
+            "User-Agent": "Universal File Converter",
+          },
+          timeout: 180000, // 3 minutes timeout for complex conversions
+          maxRedirects: 5,
+        }
+      );
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        console.error("❌ ConvertAPI request failed:", {
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          url: apiUrl,
+        });
 
-      // Handle specific errors
-      if (axiosError.response?.status === 401) {
-        return NextResponse.json(
-          { error: "ConvertAPI key tidak valid" },
-          { status: 401 }
-        );
-      } else if (axiosError.response?.status === 402) {
-        return NextResponse.json(
-          {
-            error:
-              "Quota ConvertAPI habis. Upgrade plan atau tunggu bulan depan.",
-          },
-          { status: 402 }
-        );
-      } else if (axiosError.response?.status === 422) {
-        return NextResponse.json(
-          {
-            error: `File ${sourceFormat.toUpperCase()} tidak valid atau corrupt`,
-          },
-          { status: 422 }
-        );
-      } else if (axiosError.response?.status === 400) {
-        return NextResponse.json(
-          {
+        // Handle specific errors
+        if (error.response?.status === 401) {
+          return NextResponse.json(
+            { error: "ConvertAPI key tidak valid" } as ErrorResponse,
+            { status: 401 }
+          );
+        } else if (error.response?.status === 402) {
+          return NextResponse.json(
+            {
+              error:
+                "Quota ConvertAPI habis. Upgrade plan atau tunggu bulan depan.",
+            } as ErrorResponse,
+            { status: 402 }
+          );
+        } else if (error.response?.status === 422) {
+          return NextResponse.json(
+            {
+              error: `File ${sourceFormat.toUpperCase()} tidak valid atau corrupt`,
+            } as ErrorResponse,
+            { status: 422 }
+          );
+        } else if (error.response?.status === 400) {
+          const errorResponse: ErrorResponse = {
             error: `Konversi ${sourceFormat.toUpperCase()} ke ${targetFormatLower.toUpperCase()} tidak didukung oleh ConvertAPI`,
-            details: axiosError.response?.data,
-          },
-          { status: 400 }
-        );
+            details: error.response?.data,
+          };
+          return NextResponse.json(errorResponse, { status: 400 });
+        }
       }
 
-      throw axiosError;
+      throw error;
     }
 
     console.log("📊 ConvertAPI response:", {
@@ -336,7 +384,9 @@ export async function POST(req: Request) {
     if (!fileInfo) {
       console.error("❌ No file info found:", responseData);
       return NextResponse.json(
-        { error: "ConvertAPI tidak mengembalikan file hasil konversi" },
+        {
+          error: "ConvertAPI tidak mengembalikan file hasil konversi",
+        } as ErrorResponse,
         { status: 500 }
       );
     }
@@ -365,7 +415,7 @@ export async function POST(req: Request) {
     } else if (fileInfo.Url) {
       console.log("⬇️ Downloading from URL:", fileInfo.Url);
 
-      const downloadResponse = await axios.get(fileInfo.Url, {
+      const downloadResponse = await axios.get<ArrayBuffer>(fileInfo.Url, {
         responseType: "arraybuffer",
         timeout: 60000,
         headers: { "User-Agent": "Universal File Converter" },
@@ -380,7 +430,9 @@ export async function POST(req: Request) {
       convertedBuffer = Buffer.from(downloadResponse.data);
     } else {
       return NextResponse.json(
-        { error: "ConvertAPI response tidak mengandung FileData atau Url" },
+        {
+          error: "ConvertAPI response tidak mengandung FileData atau Url",
+        } as ErrorResponse,
         { status: 500 }
       );
     }
@@ -404,8 +456,11 @@ export async function POST(req: Request) {
     const contentType =
       MIME_TYPES[targetFormatLower] || "application/octet-stream";
 
+    // Convert Node.js Buffer to Uint8Array for Web API compatibility
+    const uint8Array = new Uint8Array(convertedBuffer);
+
     // Return converted file
-    return new Response(convertedBuffer, {
+    return new Response(uint8Array, {
       status: 200,
       headers: {
         "Content-Type": contentType,
@@ -418,52 +473,57 @@ export async function POST(req: Request) {
         "X-Converted-Size": convertedBuffer.length.toString(),
       },
     });
-  } catch (err: any) {
-    console.error("❌ Conversion error:", {
-      message: err.message,
-      status: err.response?.status,
-      statusText: err.response?.statusText,
-    });
-
-    let errorMessage = "Conversion failed: " + err.message;
+  } catch (error: unknown) {
+    let errorMessage = "Unknown conversion error";
     let statusCode = 500;
 
-    if (err.response?.status === 401) {
-      errorMessage = "ConvertAPI key tidak valid";
-      statusCode = 401;
-    } else if (err.response?.status === 402) {
-      errorMessage = "ConvertAPI quota exceeded";
-      statusCode = 402;
-    } else if (err.code === "ECONNABORTED") {
-      errorMessage =
-        "Conversion timeout. File mungkin terlalu besar atau kompleks.";
-      statusCode = 408;
+    if (isConversionError(error)) {
+      console.error("❌ Conversion error:", {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+      });
+
+      errorMessage = "Conversion failed: " + error.message;
+
+      if (error.response?.status === 401) {
+        errorMessage = "ConvertAPI key tidak valid";
+        statusCode = 401;
+      } else if (error.response?.status === 402) {
+        errorMessage = "ConvertAPI quota exceeded";
+        statusCode = 402;
+      } else if (error.code === "ECONNABORTED") {
+        errorMessage =
+          "Conversion timeout. File mungkin terlalu besar atau kompleks.";
+        statusCode = 408;
+      }
+    } else if (error instanceof Error) {
+      errorMessage = "Conversion failed: " + error.message;
     }
 
-    return NextResponse.json(
-      {
-        error: errorMessage,
-        timestamp: new Date().toISOString(),
-        helpUrl: "https://www.convertapi.com/doc",
-      },
-      { status: statusCode }
-    );
+    const errorResponse: ErrorResponse = {
+      error: errorMessage,
+      timestamp: new Date().toISOString(),
+      helpUrl: "https://www.convertapi.com/doc",
+    };
+
+    return NextResponse.json(errorResponse, { status: statusCode });
   } finally {
     // Always cleanup temp file
     if (filePath && fs.existsSync(filePath)) {
       try {
         fs.unlinkSync(filePath);
         console.log("🗑️ Temp file cleaned up");
-      } catch (cleanupErr) {
-        console.error("⚠️ Failed to cleanup temp file:", cleanupErr);
+      } catch (cleanupError) {
+        console.error("⚠️ Failed to cleanup temp file:", cleanupError);
       }
     }
   }
 }
 
 // GET endpoint to show supported conversions
-export async function GET() {
-  return NextResponse.json({
+export async function GET(): Promise<Response> {
+  const response = {
     message: "Universal File Converter API",
     usage: {
       endpoint: "POST /api/convert",
@@ -487,5 +547,7 @@ export async function GET() {
       timeout: "3 minutes",
       monthlyQuota: "250 conversions (free tier)",
     },
-  });
+  };
+
+  return NextResponse.json(response);
 }

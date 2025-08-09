@@ -18,6 +18,18 @@
   );
 }
 
+/* Hilangin spinner di Chrome, Edge, Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hilangin spinner di Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .glass {
   background: linear-gradient(
     135deg,

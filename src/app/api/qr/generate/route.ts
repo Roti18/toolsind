@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   try {
     const qr = await QRCode.toDataURL(text);
     return NextResponse.json({ qr });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Gagal membuat QR Code" },
       { status: 500 }

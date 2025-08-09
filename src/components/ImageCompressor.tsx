@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef } from "react";
 
 export default function ImageCompressor() {
@@ -48,7 +49,7 @@ export default function ImageCompressor() {
 
         {/* Upload Input */}
         <label className="block mb-4 text-white">
-          <span className="block mb-1">Upload Gambar</span>
+          <span className="block mb-1">Upload Image</span>
           <input
             ref={fileInputRef}
             type="file"
@@ -64,7 +65,7 @@ export default function ImageCompressor() {
         {/* Quality Slider */}
         <label className="block mb-4 text-white">
           <span className="block mb-1">
-            Kualitas: {Math.round(quality * 100)}%
+            Quality: {Math.round(quality * 100)}%
           </span>
           <input
             type="range"
@@ -105,10 +106,15 @@ export default function ImageCompressor() {
         {outputUrl && (
           <div className="mt-4 p-3 border border-red-500 rounded-md bg-black text-white space-y-2">
             <p>Ukuran hasil: {formatBytes(compressedSize)}</p>
-            <img
+            <Image
               src={outputUrl}
               alt="Hasil kompresi"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "auto" }}
               className="max-w-full rounded"
+              unoptimized // Important for blob URLs
             />
             <div className="mt-4">
               <a

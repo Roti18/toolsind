@@ -62,10 +62,10 @@ export const unitGroups: Record<string, string[]> = {
 
 export default function UnitConverter() {
   const categories = Object.keys(unitGroups);
-  const [category, setCategory] = useState("Panjang");
+  const [category, setCategory] = useState("length");
   const [value, setValue] = useState("0");
-  const [from, setFrom] = useState(unitGroups["Panjang"][0]);
-  const [to, setTo] = useState(unitGroups["Panjang"][1]);
+  const [from, setFrom] = useState(unitGroups["length"][0]);
+  const [to, setTo] = useState(unitGroups["length"][1]);
   const [result, setResult] = useState<number | null>(null);
 
   const handleConvert = async () => {
@@ -78,9 +78,17 @@ export default function UnitConverter() {
       to,
     });
 
-    const res = await fetch(`/api/unit-converter?${params}`);
-    const data = await res.json();
-    if (res.ok) setResult(data.result);
+    try {
+      const res = await fetch(`/api/unit-converter?${params}`);
+      const data = await res.json();
+      if (res.ok) {
+        setResult(data.result);
+      } else {
+        console.error("Conversion error:", data.error);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   type UnitCategory = keyof typeof unitGroups;
@@ -92,6 +100,22 @@ export default function UnitConverter() {
     setResult(null);
   };
 
+  // Display names for categories in English
+  const categoryDisplayNames: Record<string, string> = {
+    length: "Length",
+    mass: "Mass",
+    temperature: "Temperature",
+    time: "Time",
+    area: "Area",
+    volume: "Volume",
+    speed: "Speed",
+    energy: "Energy",
+    pressure: "Pressure",
+    data: "Data",
+    power: "Power",
+    frequency: "Frequency",
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="relative w-full max-w-xl p-6 mt-6 mb-10 rounded-2xl border border-zinc-800 bg-black/80 backdrop-blur-xl shadow-2xl overflow-hidden group">
@@ -101,17 +125,17 @@ export default function UnitConverter() {
 
         {/* Select Category */}
         <label className="block mb-4 text-white">
-          <span className="block mb-1">Kategori</span>
+          <span className="block mb-1">Category</span>
           <select
             value={category}
             onChange={(e) =>
               handleCategoryChange(e.target.value as UnitCategory)
             }
-            className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded"
+            className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded-lg"
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
-                {cat}
+                {categoryDisplayNames[cat] || cat}
               </option>
             ))}
           </select>
@@ -119,25 +143,25 @@ export default function UnitConverter() {
 
         {/* Input Value */}
         <label className="block mb-4 text-white">
-          <span className="block mb-1">Nilai</span>
+          <span className="block mb-1">Value</span>
           <input
             type="number"
             value={value}
             onChange={(e) => {
               let val = e.target.value;
 
-              // Bersihin nol depan saat user mulai ngetik
+              // Clean leading zeros when user starts typing
               if (value === "0") {
                 val = val.replace(/^0+/, "");
               }
 
-              // Jangan kosongin
+              // Don't leave empty
               if (val === "") val = "0";
 
               setValue(val);
               setResult(null);
             }}
-            className="w-full p-2 border border-red-500 bg-black text-white rounded 
+            className="w-full p-2 border border-red-500 bg-black text-white rounded-lg 
              [appearance:textfield] 
              [&::-webkit-inner-spin-button]:appearance-none 
              [&::-webkit-outer-spin-button]:appearance-none"
@@ -147,11 +171,11 @@ export default function UnitConverter() {
         {/* Unit Selection */}
         <div className="flex gap-4 mb-4 text-white">
           <label className="flex-1">
-            <span className="block mb-1">Dari</span>
+            <span className="block mb-1">From</span>
             <select
               value={from}
               onChange={(e) => setFrom(e.target.value)}
-              className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded"
+              className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded-lg"
             >
               {unitGroups[category].map((unit) => (
                 <option key={unit} value={unit}>
@@ -162,11 +186,11 @@ export default function UnitConverter() {
           </label>
 
           <label className="flex-1">
-            <span className="block mb-1">Ke</span>
+            <span className="block mb-1">To</span>
             <select
               value={to}
               onChange={(e) => setTo(e.target.value)}
-              className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded"
+              className="cursor-pointer w-full p-2 bg-black border border-red-500 text-white rounded-lg"
             >
               {unitGroups[category].map((unit) => (
                 <option key={unit} value={unit}>
@@ -177,7 +201,7 @@ export default function UnitConverter() {
           </label>
         </div>
 
-        {/* Tombol Convert */}
+        {/* Convert Button */}
         <div className="flex justify-end">
           <button
             onClick={handleConvert}
@@ -191,7 +215,7 @@ export default function UnitConverter() {
         {result !== null && (
           <div className="mt-6 p-3 border border-red-500 rounded-md bg-black text-white">
             <p className="text-sm">
-              Hasil: {result} {to}
+              Result: {result} {to}
             </p>
           </div>
         )}
