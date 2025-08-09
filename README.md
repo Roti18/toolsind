@@ -112,4 +112,4 @@ This project would not have been possible without the support of various parties
 
 ## 📄 License
 
-This project is released under the [**MIT License**](LICENSE). See the file for more details.
+This project is released under the [**MIT License**](/LICENSE.md). See the file for more details.
