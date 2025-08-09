@@ -98,15 +98,15 @@ Here are the steps to run this project in your local environment:
 
 ---
 
-## 🙏 Ucapan Terima Kasih
+## ✨ Acknowledgements
 
-Proyek ini tidak akan terwujud tanpa dukungan dari berbagai pihak. Kami mengucapkan terima kasih sebesar-besarnya kepada:
+This project would not have been possible without the support of various parties. We would like to express our sincere gratitude to:
 
-- IBM SkillsBuild dan Hacktiv8 yang telah menyediakan program pelatihan yang luar biasa.
+- IBM SkillsBuild and Hacktiv8 for providing an outstanding training program.
 
-- Para instruktur dan mentor yang telah membimbing selama proses pembelajaran.
+- Our instructors and mentors for their guidance throughout the learning process.
 
-- Seluruh tim yang terlibat dalam proyek ini atas kerja keras dan kolaborasinya.
+- The entire team involved in this project for their hard work and collaboration.
 
 ---
 
