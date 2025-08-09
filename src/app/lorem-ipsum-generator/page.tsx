@@ -1,4 +1,4 @@
-import LoremIpsumGenerator from "@/components/LoremIpsumGenerator";
+import LoremIpsumGenerator from "./LoremIpsumGenerator";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/lorem-ipsum-generator");

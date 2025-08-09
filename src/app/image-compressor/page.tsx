@@ -1,4 +1,4 @@
-import ImageCompressor from "@/components/ImageCompressor";
+import ImageCompressor from "./ImageCompressor";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/image-compressor");

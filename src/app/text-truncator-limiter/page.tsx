@@ -1,4 +1,4 @@
-import TextTruncator from "@/components/TextTruncator";
+import TextTruncator from "./TextTruncator";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === `/text-truncator-limiter`);

@@ -2,62 +2,20 @@
 
 import { useState } from "react";
 
+// Perbaikan: Unit diubah menjadi singkatan agar sesuai dengan kode back-end
 export const unitGroups: Record<string, string[]> = {
-  length: [
-    "millimeter",
-    "centimeter",
-    "meter",
-    "kilometer",
-    "inch",
-    "foot",
-    "yard",
-    "mile",
-  ],
-  mass: ["milligram", "gram", "kilogram", "ton", "ounce", "pound", "stone"],
-  temperature: ["celsius", "fahrenheit", "kelvin"],
-  time: [
-    "millisecond",
-    "second",
-    "minute",
-    "hour",
-    "day",
-    "week",
-    "month",
-    "year",
-  ],
-  area: [
-    "square meter",
-    "square kilometer",
-    "square mile",
-    "square foot",
-    "square yard",
-    "hectare",
-    "acre",
-  ],
-  volume: [
-    "milliliter",
-    "liter",
-    "cubic centimeter",
-    "cubic meter",
-    "gallon",
-    "quart",
-    "pint",
-    "cup",
-    "fluid ounce",
-  ],
-  speed: ["meter/second", "kilometer/hour", "mile/hour", "knot"],
-  energy: [
-    "joule",
-    "kilojoule",
-    "calorie",
-    "kilocalorie",
-    "watt hour",
-    "kilowatt hour",
-  ],
-  pressure: ["pascal", "kilopascal", "bar", "atmosphere", "psi", "mmHg"],
-  data: ["bit", "byte", "kilobyte", "megabyte", "gigabyte", "terabyte"],
-  power: ["watt", "kilowatt", "megawatt", "horsepower"],
-  frequency: ["hertz", "kilohertz", "megahertz", "gigahertz"],
+  length: ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"],
+  mass: ["g", "kg", "lb", "oz", "ton"],
+  temperature: ["C", "F", "K"],
+  time: ["s", "min", "h", "day", "week"],
+  area: ["m2", "cm2", "km2", "ft2", "in2", "acre", "ha"],
+  volume: ["ml", "l", "m3", "gal", "pt"],
+  speed: ["m/s", "km/h", "mph", "knot"],
+  energy: ["j", "kj", "cal", "kcal", "wh"],
+  pressure: ["pa", "bar", "atm", "psi", "mmhg"],
+  data: ["bit", "b", "kb", "mb", "gb", "tb"],
+  power: ["w", "kw", "hp"],
+  frequency: ["hz", "khz", "mhz", "ghz"],
 };
 
 export default function UnitConverter() {
@@ -162,9 +120,9 @@ export default function UnitConverter() {
               setResult(null);
             }}
             className="w-full p-2 border border-red-500 bg-black text-white rounded-lg 
-             [appearance:textfield] 
-             [&::-webkit-inner-spin-button]:appearance-none 
-             [&::-webkit-outer-spin-button]:appearance-none"
+            [appearance:textfield] 
+            [&::-webkit-inner-spin-button]:appearance-none 
+            [&::-webkit-outer-spin-button]:appearance-none"
           />
         </label>
 

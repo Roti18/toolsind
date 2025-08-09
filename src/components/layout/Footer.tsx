@@ -8,7 +8,7 @@ const medsos = {
 };
 
 const platform = {
-  ibm: "https://www.ibm.com",
+  ibm: "https://skillsbuild.org/",
   hacktiv8: "https://hacktiv8.com",
 };
 
@@ -32,7 +32,7 @@ export default function Footer() {
             className="text-red-500 hover:underline transition-colors duration-300"
             target="_blank"
           >
-            IBM Capstone Project
+            IBM SkillsBuild
           </Link>
           .
         </div>

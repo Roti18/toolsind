@@ -18,8 +18,9 @@ export function GET(req: NextRequest) {
   }
 }
 
+// Unit Categories disesuaikan dengan singkatan yang digunakan di front-end
 const unitCategories = {
-  length: ["m", "cm", "km", "in", "ft", "yd", "mi"],
+  length: ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"],
   temperature: ["C", "F", "K"],
   mass: ["g", "kg", "lb", "oz", "ton"],
   time: ["s", "min", "h", "day", "week"],
@@ -53,6 +54,7 @@ function convert(value: number, from: string, to: string): number {
   );
 }
 
+// Perbaikan: Menambahkan faktor konversi untuk "mm"
 const unitFactors = {
   length: {
     m: 1,
@@ -62,6 +64,7 @@ const unitFactors = {
     ft: 3.28084,
     yd: 1.09361,
     mi: 0.000621371,
+    mm: 1000,
   },
   mass: {
     g: 1,

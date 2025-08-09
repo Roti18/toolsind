@@ -1,4 +1,4 @@
-import MarkdownConverter from "@/components/MarkdownConverter";
+import MarkdownConverter from "./MarkdownConverter";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/markdown-html-converter");

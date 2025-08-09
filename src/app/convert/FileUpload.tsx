@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { FileUpIcon, TriangleAlert } from "lucide-react";
-import Modal from "./Modal";
+import Modal from "../../components/Modal";
 
 const CONVERSION_OPTIONS: { [key: string]: string[] } = {
   pdf: ["docx", "txt", "html", "jpg", "png", "xlsx", "pptx"],

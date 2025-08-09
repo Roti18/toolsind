@@ -1,4 +1,4 @@
-import AiCode from "@/components/AiCode";
+import AiCode from "./AiCode";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/ai-code-generator");

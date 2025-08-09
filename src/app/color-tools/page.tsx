@@ -1,4 +1,4 @@
-import ColorToolsClient from "@/components/ColorToolsClient";
+import ColorToolsClient from "./ColorToolsClient";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/color-tools");

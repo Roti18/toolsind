@@ -1,4 +1,4 @@
-import TextCaseConverter from "@/components/TextCaseConverter";
+import TextCaseConverter from "./TextCaseConverter";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/text-case");

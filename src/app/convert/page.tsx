@@ -1,4 +1,4 @@
-import FileUpload from "@/components/FileUpload";
+import FileUpload from "./FileUpload";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/convert");

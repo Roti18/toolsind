@@ -1,4 +1,4 @@
-import PasswordGenerator from "@/components/PasswordGenerator";
+import PasswordGenerator from "./PasswordGenerator";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/password-generator");

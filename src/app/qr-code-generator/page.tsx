@@ -1,4 +1,4 @@
-import QRCodePageClient from "../../components/QRCodePageClient";
+import QRCodePageClient from "./QRCodePageClient";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/qr-code-generator");

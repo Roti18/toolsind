@@ -1,4 +1,4 @@
-import TextDiffChecker from "@/components/TextDiffChecker";
+import TextDiffChecker from "./TextDiffChecker";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/text-diff");

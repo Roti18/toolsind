@@ -1,4 +1,4 @@
-import CurrencyConverter from "@/components/CurrencyConverter";
+import CurrencyConverter from "./CurrencyConverter";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === "/currency-converter");

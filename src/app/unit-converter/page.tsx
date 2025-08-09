@@ -1,4 +1,4 @@
-import UnitConverter from "@/components/UnitConverter";
+import UnitConverter from "./UnitConverter";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find((tool) => tool.href === `/unit-converter`);

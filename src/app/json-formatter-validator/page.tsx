@@ -1,5 +1,4 @@
-// src/app/json-tools/page.tsx
-import JsonFormatterValidator from "@/components/JsonFormatterValidator";
+import JsonFormatterValidator from "./JsonFormatterValidator";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find(

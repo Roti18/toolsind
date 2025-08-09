@@ -1,4 +1,4 @@
-import UnixTimestampConverter from "@/components/UnixTimeStepConverter";
+import UnixTimestampConverter from "./UnixTimeStepConverter";
 import toolsCard from "../../../data/toolsCard";
 
 const tool = toolsCard.find(

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Copy, Check, TriangleAlert } from "lucide-react";
-import Modal from "./Modal"; // Import komponen Modal yang telah diperbarui
+import Modal from "../../components/Modal"; // Import komponen Modal yang telah diperbarui
 
 export default function AiCodeGenerator() {
   const [prompt, setPrompt] = useState("");
