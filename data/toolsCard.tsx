@@ -136,7 +136,7 @@ const toolsCard = [
   },
   {
     href: "/currency-converter",
-    title: "Currency Converter (Real-time)",
+    title: "Currency Converter",
     webName: namaWeb,
     description: "Convert currencies using static rates.",
     icon: DollarSign,
